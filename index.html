@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Math Battle ⚔️</title>
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        background: linear-gradient(45deg, #2b5876, #4e4376);
+        color: white; text-align:center;
+    }
+    h1{
+        animation: title 2s infinite alternate;
+    }
+    @keyframes title {
+        from{ transform: scale(1);}
+        to{ transform: scale(1.08); color:#ffeb3b;}
+    }
+    .container{
+        margin-top:30px;
+        background: rgba(255,255,255,0.1);
+        padding:20px; border-radius:10px;
+        width:350px; margin:auto;
+        box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+    button{
+        padding:10px 20px; font-size:16px;
+        background:#ff9800; border:none; cursor:pointer;
+        border-radius:5px; color:white;
+        transition:0.3s;
+    }
+    button:hover{ background:#ff5722; transform:scale(1.1); }
+    .health{ width:80%; height:20px; background:red; margin:auto; border-radius:10px;}
+    .hp{ height:20px; background:lime; border-radius:10px; }
+</style>
+</head>
+<body>
+
+<h1>⚔️ Math Battle ⚔️</h1>
+<h3>Alumno vs CPU</h3>
+
+<div class="container">
+    <p><b>Tu vida:</b></p>
+    <div class="health"><div id="vidaUser" class="hp" style="width:100%"></div></div>
+
+    <p><b>Vida CPU:</b></p>
+    <div class="health"><div id="vidaCPU" class="hp" style="width:100%"></div></div>
+
+    <br><h3 id="pregunta"></h3>
+
+    <input type="text" id="respuesta" placeholder="Tu respuesta...">
+    <button onclick="verificar()">Atacar ⚔️</button>
+</div>
+
+<script>
+let vidaUser = 100, vidaCPU = 100;
+let a, b, correcto;
+
+function nuevaPregunta(){
+    a = Math.floor(Math.random()*10)+1;
+    b = Math.floor(Math.random()*10)+1;
+    correcto = a + b; // Operación: Suma
+    document.getElementById("pregunta").innerHTML = `¿Cuánto es ${a} + ${b}?`;
+}
+function bajarVida(barra, vida){
+    barra.style.width = vida + "%";
+    if(vida <= 0){ barra.style.width = "0%"; }
+}
+function verificar(){
+    let r = parseInt(document.getElementById("respuesta").value);
+    let barUser = document.getElementById("vidaUser");
+    let barCPU = document.getElementById("vidaCPU");
+
+    if(r === correcto){
+        vidaCPU -= 20;
+        alert("¡Ataque exitoso! 💥");
+    }else{
+        vidaUser -= 20;
+        alert("Fallaste... ¡Te dañaron! 😣");
+    }
+    bajarVida(barCPU, vidaCPU);
+    bajarVida(barUser, vidaUser);
+
+    if(vidaCPU <= 0){ alert("🎉 ¡Ganaste la batalla!"); location.reload(); }
+    if(vidaUser <= 0){ alert("💀 Perdiste… inténtalo otra vez."); location.reload(); }
+
+    document.getElementById("respuesta").value = "";
+    nuevaPregunta();
+}
+nuevaPregunta();
+</script>
+
+</body>
+</html>
